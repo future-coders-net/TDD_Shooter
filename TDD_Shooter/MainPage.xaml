@@ -9,6 +9,14 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
+        <Canvas>
+            <Image Source="{Binding Path=Ship.Source}"
+               Width="{Binding Path=Ship.Width}"
+               Height="{Binding Path=Ship.Height}"
+               Canvas.Top="{Binding Path=Ship.Y}"
+               Canvas.Left="{Binding Path=Ship.X}"
+               />
+        </Canvas>
     </Grid>
+
 </Page>

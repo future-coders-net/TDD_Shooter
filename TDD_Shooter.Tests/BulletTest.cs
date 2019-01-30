@@ -61,5 +61,32 @@ namespace TDD_Shooter.Tests
             vm.Tick(100);
             Assert.AreEqual(0, vm.Bullets.Count);
         }
+
+        [UITestMethod]
+        public void EnemyShootBullet()
+        {
+            ViewModel vm = new ViewModel();
+            vm.Ship.X = 300 - vm.Ship.Width / 2;
+            vm.Ship.Y = 300;
+
+            Enemy enemy = new Enemy(300, 0);
+            enemy.X -= enemy.Width / 2;
+            vm.AddEnemy(enemy);
+            vm.Tick(19);
+
+            Assert.AreEqual(0, vm.Bullets.Count);
+            vm.Tick(1);
+            Assert.AreEqual(1, vm.Bullets.Count);
+
+            Bullet b = (Bullet)vm.Bullets[0];
+            Enemy e = (Enemy)vm.Enemies[0];
+            Assert.AreEqual(b.X + b.Width / 2 - 5, e.X + e.Width / 2);
+            Assert.AreEqual(b.Y + b.Height / 2 - 5, e.Y + e.Height / 2);
+
+            Assert.IsTrue(vm.Ship.IsValid);
+            vm.Tick(20);
+            Assert.IsFalse(vm.Ship.IsValid);
+        }
+
     }
 }

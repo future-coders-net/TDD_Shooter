@@ -26,33 +26,15 @@ namespace TDD_Shooter
             get { return drawables; }
         }
 
-        public List<Drawable> Enemies
+        private List<Drawable> Filter<T>()
         {
-            get
-            {
-                IEnumerable<Drawable> data = Drawables.Where(e => e is Enemy);
-                return data.ToList<Drawable>();
-            }
+            IEnumerable<Drawable> data = Drawables.Where(e => e is T);
+            return data.ToList<Drawable>();
         }
 
-        public List<Drawable> Bullets
-        {
-            get
-            {
-                IEnumerable<Drawable> data = Drawables.Where(e => e is Bullet);
-                return data.ToList<Drawable>();
-            }
-        }
-
-        public List<Drawable> Blasts
-        {
-            get
-            {
-                IEnumerable<Drawable> data = Drawables.Where(e => e is Blast);
-                return data.ToList<Drawable>();
-            }
-        }
-
+        public List<Drawable> Enemies { get { return Filter<Enemy>(); } }
+        public List<Drawable> Bullets { get { return Filter<Bullet>(); } }
+        public List<Drawable> Blasts { get { return Filter<Blast>(); } }
 
         internal ViewModel()
         {
@@ -120,16 +102,34 @@ namespace TDD_Shooter
                     {
                         Drawables.Remove(e);
                     }
+                    if (e is Enemy)
+                    {
+                        Enemy enemy = (Enemy)e;
+                        if (enemy.IsFire)
+                        {
+                            CreateEnemyBullet(enemy);
+                        }
+                        if (Crash(e, Ship))
+                        {
+                            Ship.IsValid = false;
+                        }
+                    }
                 }
 
                 foreach (Bullet b in Bullets)
                 {
+                    if (b.IsEnemy)
+                    {
+                        if (Crash(b, Ship))
+                        {
+                            Ship.IsValid = false;
+                        }
+                        continue;
+                    }
+
                     foreach (Enemy e in Enemies)
                     {
-                        Rect r = e.Rect;
-                        r.Intersect(b.Rect);
-
-                        if (r != Rect.Empty && b.IsValid && e.IsValid)
+                        if (Crash(b, e) && b.IsValid && e.IsValid)
                         {
                             e.IsValid = false;
                             b.IsValid = false;
@@ -138,7 +138,6 @@ namespace TDD_Shooter
                         }
                     }
                 }
-
             }
             Ship.Y = Math.Max(0, Math.Min(Field.Height - Ship.Height, Ship.Y));
             Ship.X = Math.Max(0, Math.Min(Field.Width - Ship.Width, Ship.X));
@@ -154,5 +153,24 @@ namespace TDD_Shooter
             Drawables.Add(b);
         }
 
+        private void CreateEnemyBullet(Enemy e)
+        {
+            double sX = e.X + e.Width / 2;
+            double sY = e.Y + e.Height / 2;
+            double eX = Ship.X + Ship.Width / 2;
+            double eY = Ship.Y + Ship.Height / 2;
+            double theta = Math.Atan2(eY - sY, eX - sX);
+            double dx = Math.Cos(theta) * Bullet.Speed;
+            double dy = Math.Sin(theta) * Bullet.Speed;
+            Bullet b = new Bullet(sX, sY, dx, dy, true);
+            AddBullet(b);
+        }
+
+        internal static bool Crash(Drawable d0, Drawable d1)
+        {
+            Rect r = d0.Rect;
+            r.Intersect(d1.Rect);
+            return r != Rect.Empty;
+        }
     }
 }

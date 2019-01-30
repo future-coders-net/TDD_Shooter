@@ -33,6 +33,8 @@ namespace TDD_Shooter
             Model.Message.Text = "GET READY...";
             Model.Ship.X = 300;
             Model.Ship.Y = 700;
+
+            Model.PlaySound += Model_PlaySound;
         }
 
         private async void ReadScenarioAsync()
@@ -71,6 +73,21 @@ namespace TDD_Shooter
         {
             Model.KeyUp(args.VirtualKey);
         }
+
+        private void Model_PlaySound(SoundEffect obj)
+        {
+            if (obj == SoundEffect.Blast)
+            {
+                blast.Position = TimeSpan.FromSeconds(0);
+                blast.Play();
+            }
+            if (obj == SoundEffect.Shoot)
+            {
+                laser.Position = TimeSpan.FromSeconds(0);
+                laser.Play();
+            }
+        }
+
 
     }
 }

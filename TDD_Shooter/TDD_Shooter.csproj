@@ -144,6 +144,9 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="Settings\scenario.json" />
+    <Content Include="Sound\industrial_zone.mp3" />
+    <Content Include="Sound\laser.mp3" />
+    <Content Include="Sound\small_explosion.mp3" />
     <None Include="TDD_Shooter_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

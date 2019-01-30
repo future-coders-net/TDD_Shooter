@@ -46,5 +46,13 @@
                 </TextBlock>
             </Grid>
         </Viewbox>
+
+        <MediaElement Source="/Sound/laser.mp3" 
+                      Name="laser" AutoPlay="False" />
+        <MediaElement Source="/Sound/small_explosion.mp3" 
+                      Name="blast" AutoPlay="False" />
+        <MediaElement Source="/Sound/industrial_zone.mp3" 
+                      Name="BGM" AutoPlay="True" IsLooping="True"/>
+
     </Grid>
 </Page>

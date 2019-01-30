@@ -7,8 +7,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 namespace TDD_Shooter
 {
+    public enum SoundEffect { None, Shoot, Blast };
+
     class ViewModel
     {
+        public event Action<SoundEffect> PlaySound;
+
         private Dictionary<VirtualKey, bool> keyMap
             = new Dictionary<VirtualKey, bool>();
 
@@ -19,6 +23,9 @@ namespace TDD_Shooter
         public static readonly Rect Field = new Rect(0, 0, 643, 800);
         public double Width { get { return Field.Width; } }
         public double Height { get { return Field.Height; } }
+
+        private int totalBullets = 0;
+        public int TotalBullets { get { return totalBullets; } }
 
         private ObservableCollection<Drawable> drawables
             = new ObservableCollection<Drawable>();
@@ -36,10 +43,6 @@ namespace TDD_Shooter
         public List<Drawable> Enemies { get { return Filter<AbstractEnemy>(); } }
         public List<Drawable> Bullets { get { return Filter<Bullet>(); } }
         public List<Drawable> Blasts { get { return Filter<Blast>(); } }
-
-        private int totalBullets = 0;
-        public int TotalBullets { get { return totalBullets; } }
-
 
         internal ViewModel()
         {
@@ -99,6 +102,7 @@ namespace TDD_Shooter
                         Ship.Y + Ship.Height / 2);
                     AddBullet(b);
                     keyMap[VirtualKey.Space] = false;
+                    PlaySound?.Invoke(SoundEffect.Shoot);
                 }
 
                 Message.Tick();
@@ -122,6 +126,7 @@ namespace TDD_Shooter
                         {
                             Ship.IsValid = false;
                             Message.Text = "GAME OVER";
+                            PlaySound?.Invoke(SoundEffect.Blast);
                         }
                     }
                 }
@@ -134,6 +139,7 @@ namespace TDD_Shooter
                         {
                             Ship.IsValid = false;
                             Message.Text = "GAME OVER";
+                            PlaySound?.Invoke(SoundEffect.Blast);
                         }
                         continue;
                     }
@@ -146,6 +152,7 @@ namespace TDD_Shooter
                             b.IsValid = false;
                             Blast blast = new Blast(b.X + b.Width / 2, b.Y + b.Height / 2);
                             Drawables.Add(blast);
+                            PlaySound?.Invoke(SoundEffect.Blast);
                         }
                     }
                 }

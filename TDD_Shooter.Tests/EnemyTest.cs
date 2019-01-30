@@ -19,9 +19,9 @@ namespace TDD_Shooter.Tests
             Assert.AreEqual(-50, enemy.Y);
             vm.Tick(1);
             Assert.AreEqual(100, enemy.X);
-            Assert.AreEqual(-50 + enemy.Speed, enemy.Y);
+            Assert.AreEqual(-50 + enemy.SpeedY, enemy.Y);
             Assert.AreEqual(vm.Enemies.Count, 1);
-            int nFrame = (int)(ViewModel.Field.Height / enemy.Speed) + 10;
+            int nFrame = (int)(ViewModel.Field.Height / enemy.SpeedY) + 10;
             vm.Tick(nFrame);
             Assert.AreEqual(vm.Enemies.Count, 0);
         }

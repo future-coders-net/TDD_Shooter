@@ -123,6 +123,8 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Back.cs" />
+    <Compile Include="Model\Bullet.cs" />
+    <Compile Include="Model\Drawable.cs" />
     <Compile Include="Model\Enemy.cs" />
     <Compile Include="Model\Ship.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

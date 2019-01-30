@@ -11,24 +11,8 @@
     <Grid>
         <Viewbox>
             <Canvas Width="{x:Bind Path=Model.Width}"
-                    Height="{x:Bind Path=Model.Height}">
-                <Image Source="{Binding Path=Back.Source}"
-                   Width="{Binding Path=Back.Width}"
-                   Height="{Binding Path=Back.Height}"
-                   Canvas.Left="{Binding Path=Back.X}"
-                   Canvas.Top="{Binding Path=Back.Y}"/>
-                <Image Source="{Binding Path=Cloud.Source}"
-                   Width="{Binding Path=Cloud.Width}"
-                   Height="{Binding Path=Cloud.Height}"
-                   Canvas.Left="{Binding Path=Cloud.X}"
-                   Canvas.Top="{Binding Path=Cloud.Y}"/>
-                <Image Source="{Binding Path=Ship.Source}"
-                   Width="{Binding Path=Ship.Width}"
-                   Height="{Binding Path=Ship.Height}"
-                   Canvas.Top="{Binding Path=Ship.Y}"
-                   Canvas.Left="{Binding Path=Ship.X}"/>
-
-                <ItemsControl ItemsSource="{Binding Path=Enemies}">
+                Height="{x:Bind Path=Model.Height}">
+                <ItemsControl ItemsSource="{Binding Path= Drawables}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <Canvas/>
@@ -37,8 +21,8 @@
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding Source}" 
-                                Width="{Binding Width}" Height="{Binding Height}">
+                            <Image Source="{Binding Source}"
+            Width="{Binding Width}" Height="{Binding Height}">
                                 <Image.RenderTransform>
                                     <TranslateTransform X="{Binding X}" Y="{Binding Y}"/>
                                 </Image.RenderTransform>
@@ -46,9 +30,7 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-
             </Canvas>
         </Viewbox>
-
     </Grid>
 </Page>

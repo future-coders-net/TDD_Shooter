@@ -1,36 +1,57 @@
-﻿using Windows.System;
+﻿using TDD_Shooter.Model;
+using Windows.System;
 using Windows.Foundation;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using TDD_Shooter.Model;
 namespace TDD_Shooter
 {
     class ViewModel
     {
         private Dictionary<VirtualKey, bool> keyMap
             = new Dictionary<VirtualKey, bool>();
+
         public Ship Ship { get; set; }
         public Back Back { get; set; }
         public Back Cloud { get; set; }
-
         public static readonly Rect Field = new Rect(0, 0, 643, 800);
         public double Width { get { return Field.Width; } }
         public double Height { get { return Field.Height; } }
 
-        private ObservableCollection<Enemy> enemies
-                = new ObservableCollection<Enemy>();
-        public ObservableCollection<Enemy> Enemies
+        private ObservableCollection<Drawable> drawables
+            = new ObservableCollection<Drawable>();
+        public ObservableCollection<Drawable> Drawables
         {
-            get { return enemies; }
+            get { return drawables; }
         }
 
+        public List<Drawable> Enemies
+        {
+            get
+            {
+                IEnumerable<Drawable> data = Drawables.Where(e => e is Enemy);
+                return data.ToList<Drawable>();
+            }
+        }
+
+        public List<Drawable> Bullets
+        {
+            get
+            {
+                IEnumerable<Drawable> data = Drawables.Where(e => e is Bullet);
+                return data.ToList<Drawable>();
+            }
+        }
 
         internal ViewModel()
         {
             Ship = new Ship();
             Back = new Back("ms-appx:///Images/back.png");
             Cloud = new Back("ms-appx:///Images/back_cloud.png");
+            drawables.Add(Back);
+            drawables.Add(Cloud);
+            drawables.Add(Ship);
         }
 
         internal void KeyDown(VirtualKey key)
@@ -43,6 +64,11 @@ namespace TDD_Shooter
             keyMap[key] = false;
         }
 
+        private Boolean IsKeyDown(VirtualKey key)
+        {
+            return keyMap.ContainsKey(key) && keyMap[key];
+        }
+
         internal void Tick(int frame)
         {
             for (int i = 0; i < frame; i++)
@@ -50,44 +76,55 @@ namespace TDD_Shooter
                 Back.Scroll(1);
                 Cloud.Scroll(2);
 
-                foreach (Enemy e in Enemies.ToArray())
+                Ship.SpeedX = 0;
+                Ship.SpeedY = 0;
+                if (IsKeyDown(VirtualKey.Left))
                 {
-                    e.Move();
-                    if (e.Y > Field.Height)
-                    {
-                        Enemies.Remove(e);
-                    }
+                    Ship.SpeedX = -Ship.Speed;
+                }
+                if (IsKeyDown(VirtualKey.Right))
+                {
+                    Ship.SpeedX = Ship.Speed;
+                }
+                if (IsKeyDown(VirtualKey.Up))
+                {
+                    Ship.SpeedY = -Ship.Speed;
+                }
+                if (IsKeyDown(VirtualKey.Down))
+                {
+                    Ship.SpeedY = Ship.Speed;
+                }
+                if (IsKeyDown(VirtualKey.Space))
+                {
+                    Bullet b = new Bullet(Ship.X + Ship.Width / 2,
+                        Ship.Y + Ship.Height / 2);
+                    AddBullet(b);
+                    keyMap[VirtualKey.Space] = false;
                 }
 
-                if (keyMap.ContainsKey(VirtualKey.Left) &&
-                    keyMap[VirtualKey.Left])
+                foreach (Drawable e in Drawables.ToArray())
                 {
-                    Ship.Move(-Ship.Speed, 0);
-                }
-                if (keyMap.ContainsKey(VirtualKey.Right) &&
-                    keyMap[VirtualKey.Right])
-                {
-                    Ship.Move(+Ship.Speed, 0);
-                }
-                if (keyMap.ContainsKey(VirtualKey.Up) &&
-                    keyMap[VirtualKey.Up])
-                {
-                    Ship.Move(0, -Ship.Speed);
-                }
-                if (keyMap.ContainsKey(VirtualKey.Down) &&
-                    keyMap[VirtualKey.Down])
-                {
-                    Ship.Move(0, +Ship.Speed);
+                    e.Move();
+                    if (e.Y > Field.Height || e.Y + e.Height < 0 ||
+                        e.X > Field.Width || e.X + e.Width < 0)
+                    {
+                        Drawables.Remove(e);
+                    }
                 }
             }
+            Ship.Y = Math.Max(0, Math.Min(Field.Height - Ship.Height, Ship.Y));
+            Ship.X = Math.Max(0, Math.Min(Field.Width - Ship.Width, Ship.X));
         }
 
         internal void AddEnemy(Enemy e)
         {
-            Enemies.Add(e);
+            Drawables.Add(e);
         }
 
-
+        internal void AddBullet(Bullet b)
+        {
+            Drawables.Add(b);
+        }
 
     }
 }

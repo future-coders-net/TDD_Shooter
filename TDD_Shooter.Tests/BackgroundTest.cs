@@ -26,5 +26,30 @@ namespace TDD_Shooter.Tests
             vm.Back.Scroll(1);
             Assert.AreEqual(-2528, vm.Back.Y);
         }
+
+
+        [UITestMethod]
+        public void CloudScroll()
+        {
+            ViewModel vm = new ViewModel();
+            Assert.AreEqual(-2528, vm.Cloud.Y);
+            vm.Cloud.Scroll(2);
+            Assert.AreEqual(-2526, vm.Cloud.Y);
+        }
+
+        [UITestMethod]
+        public void CloudScrollWrap()
+        {
+            ViewModel vm = new ViewModel();
+            for (int i = 0; i < 2528 / 2; i++)
+            {
+                vm.Cloud.Scroll(2);
+            }
+            Assert.AreEqual(0, vm.Cloud.Y);
+            vm.Cloud.Scroll(2);
+            Assert.AreEqual(-2528, vm.Cloud.Y);
+        }
+
+
     }
 }

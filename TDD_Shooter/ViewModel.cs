@@ -10,6 +10,8 @@ namespace TDD_Shooter
             = new Dictionary<VirtualKey, bool>();
         public Ship Ship { get; set; }
         public Back Back { get; set; }
+        public Back Cloud { get; set; }
+
         public static readonly Rect Field = new Rect(0, 0, 643, 800);
         public double Width { get { return Field.Width; } }
         public double Height { get { return Field.Height; } }
@@ -18,6 +20,7 @@ namespace TDD_Shooter
         {
             Ship = new Ship();
             Back = new Back("ms-appx:///Images/back.png");
+            Cloud = new Back("ms-appx:///Images/back_cloud.png");
         }
 
         internal void KeyDown(VirtualKey key)
@@ -35,6 +38,7 @@ namespace TDD_Shooter
             for (int i = 0; i < frame; i++)
             {
                 Back.Scroll(1);
+                Cloud.Scroll(2);
                 if (keyMap.ContainsKey(VirtualKey.Left) &&
                     keyMap[VirtualKey.Left])
                 {

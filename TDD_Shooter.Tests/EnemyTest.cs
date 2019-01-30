@@ -92,6 +92,28 @@ namespace TDD_Shooter.Tests
             }
         }
 
+        [UITestMethod]
+        public void Enemy2Movement()
+        {
+            ViewModel vm = new ViewModel();
+            double speedX = 3, speedY = 10, theta = -1;
+            Enemy2 enemy = new Enemy2(300, 0, speedX, speedY, theta);
+            Assert.AreEqual("ms-appx:///Images/enemy2.png",
+                                     enemy.Source.UriSource.AbsoluteUri);
+
+            vm.AddEnemy(enemy);
+
+            for (int i = 0; i < 50; i++)
+            {
+                Assert.AreEqual(300 + speedX * i, enemy.X);
+                Assert.AreEqual(speedY * i, enemy.Y);
+                Assert.AreEqual(theta * i, enemy.Theta);
+                vm.Tick(1);
+            }
+            vm.Tick(50);
+            Assert.AreEqual(0, vm.Enemies.Count);
+        }
+
 
     }
 }

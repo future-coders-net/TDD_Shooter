@@ -25,21 +25,25 @@
                                 <Image Source="{Binding Source}"
                     Width="{Binding Width}" Height="{Binding Height}">
                                     <Image.RenderTransform>
-                                        <TranslateTransform X="{Binding X}" Y="{Binding Y}"/>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="{Binding Theta}" 
+                            CenterX="{Binding CenterX}"
+                            CenterY="{Binding CenterY}"/>
+                                            <TranslateTransform X="{Binding X}" Y="{Binding Y}"/>
+                                        </TransformGroup>
                                     </Image.RenderTransform>
                                 </Image>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </Canvas>
-                
+
                 <TextBlock FontSize="50" Foreground="Yellow"
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Opacity="{Binding Path=Message.Alpha}"
                            Text="{Binding Path=Message.Text}">
                 </TextBlock>
-
             </Grid>
         </Viewbox>
     </Grid>

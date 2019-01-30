@@ -129,6 +129,7 @@
     <Compile Include="Model\Drawable.cs" />
     <Compile Include="Model\Enemy0.cs" />
     <Compile Include="Model\Enemy1.cs" />
+    <Compile Include="Model\Enemy2.cs" />
     <Compile Include="Model\IClock.cs" />
     <Compile Include="Model\Message.cs" />
     <Compile Include="Model\Ship.cs" />

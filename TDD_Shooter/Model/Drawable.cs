@@ -52,6 +52,16 @@ namespace TDD_Shooter.Model
             protected set { source = value; NotifyPropertyChanged("Source"); }
         }
 
+        private double theta = 0;
+        public virtual double Theta
+        {
+            get { return theta; }
+            set { theta = value; NotifyPropertyChanged("Theta"); }
+        }
+        public double CenterX { get { return Width / 2; } }
+        public double CenterY { get { return Height / 2; } }
+
+
         public double Width { get { return Rect.Width; } }
         public double Height { get { return Rect.Height; } }
         public double SpeedX { get; set; }

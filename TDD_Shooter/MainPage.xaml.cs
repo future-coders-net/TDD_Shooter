@@ -25,8 +25,9 @@ namespace TDD_Shooter
             timer.Start();
 
             Model.Message.Text = "GET READY...";
-            Model.AddEnemy(new Enemy(300, 0));
-            Model.AddEnemy(new Enemy(500, -50));
+            Model.AddEnemy(new Enemy1(300, 0));
+            Model.AddEnemy(new Enemy1(200, -50));
+
             Model.Ship.X = 300;
             Model.Ship.Y = 700;
         }

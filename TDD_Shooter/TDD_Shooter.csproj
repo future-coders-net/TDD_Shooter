@@ -122,11 +122,13 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\AbstractEnemy.cs" />
     <Compile Include="Model\Back.cs" />
     <Compile Include="Model\Blast.cs" />
     <Compile Include="Model\Bullet.cs" />
     <Compile Include="Model\Drawable.cs" />
-    <Compile Include="Model\Enemy.cs" />
+    <Compile Include="Model\Enemy0.cs" />
+    <Compile Include="Model\Enemy1.cs" />
     <Compile Include="Model\IClock.cs" />
     <Compile Include="Model\Message.cs" />
     <Compile Include="Model\Ship.cs" />

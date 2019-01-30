@@ -3,11 +3,9 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace TDD_Shooter.Model
 {
-    internal class Enemy : Drawable
+    internal class Enemy0 : AbstractEnemy
     {
-        private int count = 0;
-
-        internal Enemy(double x, double y) : base(50, 50)
+        internal Enemy0(double x, double y) : base(50, 50)
         {
             Source = new BitmapImage(new Uri("ms-appx:///Images/enemy0_0.png"));
             X = x;
@@ -20,7 +18,7 @@ namespace TDD_Shooter.Model
             Y += SpeedY;
         }
 
-        internal bool IsFire
+        internal override bool IsFire
         {
             get { return ++count == 20; }
         }

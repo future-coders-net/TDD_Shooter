@@ -33,7 +33,7 @@ namespace TDD_Shooter
             return data.ToList<Drawable>();
         }
 
-        public List<Drawable> Enemies { get { return Filter<Enemy>(); } }
+        public List<Drawable> Enemies { get { return Filter<AbstractEnemy>(); } }
         public List<Drawable> Bullets { get { return Filter<Bullet>(); } }
         public List<Drawable> Blasts { get { return Filter<Blast>(); } }
 
@@ -107,9 +107,9 @@ namespace TDD_Shooter
                     {
                         Drawables.Remove(e);
                     }
-                    if (e is Enemy)
+                    if (e is AbstractEnemy)
                     {
-                        Enemy enemy = (Enemy)e;
+                        AbstractEnemy enemy = (AbstractEnemy)e;
                         if (enemy.IsFire)
                         {
                             CreateEnemyBullet(enemy);
@@ -134,7 +134,7 @@ namespace TDD_Shooter
                         continue;
                     }
 
-                    foreach (Enemy e in Enemies)
+                    foreach (AbstractEnemy e in Enemies)
                     {
                         if (Crash(b, e) && b.IsValid && e.IsValid)
                         {
@@ -150,7 +150,7 @@ namespace TDD_Shooter
             Ship.X = Math.Max(0, Math.Min(Field.Width - Ship.Width, Ship.X));
         }
 
-        internal void AddEnemy(Enemy e)
+        internal void AddEnemy(AbstractEnemy e)
         {
             Drawables.Add(e);
         }
@@ -160,7 +160,7 @@ namespace TDD_Shooter
             Drawables.Add(b);
         }
 
-        private void CreateEnemyBullet(Enemy e)
+        private void CreateEnemyBullet(AbstractEnemy e)
         {
             double sX = e.X + e.Width / 2;
             double sY = e.Y + e.Height / 2;

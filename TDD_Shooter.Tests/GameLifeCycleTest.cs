@@ -18,7 +18,7 @@ namespace TDD_Shooter.Tests
             vm.Ship.X = 100;
             vm.Ship.Y = 100;
             vm.Ship.PropertyChanged += Ship_PropertyChanged;
-            Enemy enemy = new Enemy(100, 100);
+            Enemy0 enemy = new Enemy0(100, 100);
             vm.AddEnemy(enemy);
             vm.Tick(1);
             Assert.IsFalse(vm.Ship.IsValid);
@@ -48,7 +48,7 @@ namespace TDD_Shooter.Tests
 
             vm.Ship.X = 100;
             vm.Ship.Y = 100;
-            Enemy enemy = new Enemy(100, 100);
+            Enemy0 enemy = new Enemy0(100, 100);
             vm.AddEnemy(enemy);
             vm.Tick(1);
             Assert.AreEqual("GAME OVER", vm.Message.Text);

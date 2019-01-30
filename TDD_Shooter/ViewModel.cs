@@ -44,11 +44,23 @@ namespace TDD_Shooter
             }
         }
 
+        public List<Drawable> Blasts
+        {
+            get
+            {
+                IEnumerable<Drawable> data = Drawables.Where(e => e is Blast);
+                return data.ToList<Drawable>();
+            }
+        }
+
+
         internal ViewModel()
         {
             Ship = new Ship();
             Back = new Back("ms-appx:///Images/back.png");
+            Back.SpeedY = 1;
             Cloud = new Back("ms-appx:///Images/back_cloud.png");
+            Cloud.SpeedY = 2;
             drawables.Add(Back);
             drawables.Add(Cloud);
             drawables.Add(Ship);
@@ -73,9 +85,6 @@ namespace TDD_Shooter
         {
             for (int i = 0; i < frame; i++)
             {
-                Back.Scroll(1);
-                Cloud.Scroll(2);
-
                 Ship.SpeedX = 0;
                 Ship.SpeedY = 0;
                 if (IsKeyDown(VirtualKey.Left))
@@ -104,13 +113,32 @@ namespace TDD_Shooter
 
                 foreach (Drawable e in Drawables.ToArray())
                 {
-                    e.Move();
-                    if (e.Y > Field.Height || e.Y + e.Height < 0 ||
-                        e.X > Field.Width || e.X + e.Width < 0)
+                    e.Tick();
+                    Rect r = e.Rect;
+                    r.Intersect(Field);
+                    if (!e.IsValid || r.IsEmpty)
                     {
                         Drawables.Remove(e);
                     }
                 }
+
+                foreach (Bullet b in Bullets)
+                {
+                    foreach (Enemy e in Enemies)
+                    {
+                        Rect r = e.Rect;
+                        r.Intersect(b.Rect);
+
+                        if (r != Rect.Empty && b.IsValid && e.IsValid)
+                        {
+                            e.IsValid = false;
+                            b.IsValid = false;
+                            Blast blast = new Blast(b.X + b.Width / 2, b.Y + b.Height / 2);
+                            Drawables.Add(blast);
+                        }
+                    }
+                }
+
             }
             Ship.Y = Math.Max(0, Math.Min(Field.Height - Ship.Height, Ship.Y));
             Ship.X = Math.Max(0, Math.Min(Field.Width - Ship.Width, Ship.X));

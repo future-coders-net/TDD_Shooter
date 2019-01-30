@@ -1,11 +1,16 @@
 ﻿using System;
 using System.ComponentModel;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.Foundation;
 
 namespace TDD_Shooter.Model
 {
-    class Drawable : INotifyPropertyChanged
+    abstract class Drawable : INotifyPropertyChanged
     {
+        internal abstract void Tick();
+
+        internal virtual bool IsValid { set; get; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged(String propertyName = "")
@@ -17,30 +22,37 @@ namespace TDD_Shooter.Model
             }
         }
 
-        protected double x, y;
+        internal Rect Rect;
 
         public double X
         {
-            get { return x; }
-            set { x = value; NotifyPropertyChanged("X"); }
+            get { return Rect.X; }
+            set { Rect.X = value; NotifyPropertyChanged("X"); }
         }
 
         public double Y
         {
-            get { return y; }
-            set { y = value; NotifyPropertyChanged("Y"); }
+            get { return Rect.Y; }
+            set { Rect.Y = value; NotifyPropertyChanged("Y"); }
         }
 
-        public double Width { get; }
-        public double Height { get; }
+        private BitmapImage source;
+        public BitmapImage Source
+        {
+            get { return source; }
+            protected set { source = value; NotifyPropertyChanged("Source"); }
+        }
+
+        public double Width { get { return Rect.Width; } }
+        public double Height { get { return Rect.Height; } }
         public double SpeedX { get; set; }
         public double SpeedY { get; set; }
-        public BitmapImage Source { get; protected set; }
 
         protected Drawable(double w, double h)
         {
-            Width = w;
-            Height = h;
+            Rect.Width = w;
+            Rect.Height = h;
+            IsValid = true;
         }
 
         public void Move()

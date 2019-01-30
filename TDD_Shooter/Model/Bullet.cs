@@ -12,5 +12,10 @@ namespace TDD_Shooter.Model
             Y = y - Height / 2;
             SpeedY = -10;
         }
+
+        internal override void Tick()
+        {
+            Y += SpeedY;
+        }
     }
 }

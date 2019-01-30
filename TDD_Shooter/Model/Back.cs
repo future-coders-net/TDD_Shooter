@@ -11,13 +11,14 @@ namespace TDD_Shooter.Model
             Y = -2528;
         }
 
-        internal void Scroll(int speed)
+        internal override void Tick()
         {
-            Y += speed;
+            Y += SpeedY;
             if (Y > 0)
             {
                 Y = -2528;
             }
         }
+
     }
 }

@@ -27,6 +27,7 @@ namespace TDD_Shooter
             Model.Message.Text = "GET READY...";
             Model.AddEnemy(new Enemy3(300, 100));
             Model.AddEnemy(new Enemy3(350, 0));
+            Model.AddEnemy(new Enemy4(350, 0));
 
             Model.Ship.X = 300;
             Model.Ship.Y = 700;

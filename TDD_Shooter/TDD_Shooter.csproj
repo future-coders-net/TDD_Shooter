@@ -131,6 +131,7 @@
     <Compile Include="Model\Enemy1.cs" />
     <Compile Include="Model\Enemy2.cs" />
     <Compile Include="Model\Enemy3.cs" />
+    <Compile Include="Model\Enemy4.cs" />
     <Compile Include="Model\IClock.cs" />
     <Compile Include="Model\Message.cs" />
     <Compile Include="Model\Ship.cs" />

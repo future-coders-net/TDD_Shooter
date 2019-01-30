@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using TDD_Shooter.Model;
+using System;
+
 namespace TDD_Shooter.Tests
 {
     [TestClass]
@@ -142,6 +144,58 @@ namespace TDD_Shooter.Tests
                 vm.Tick(10);
             }
             Assert.AreEqual(1, vm.Bullets.Count);
+        }
+
+        [UITestMethod]
+        public void Enemy4Movement()
+        {
+            ViewModel vm = new ViewModel();
+            int seed = 1;
+            Enemy4 enemy = new Enemy4(200, 200, seed);
+            vm.AddEnemy(enemy);
+            Assert.AreEqual("ms-appx:///Images/enemy4.png",
+                enemy.Source.UriSource.AbsoluteUri);
+
+            Random r = new Random(seed);
+            for (int i = 0; i < 10; i++)
+            {
+                int rx = r.Next(0, (int)(ViewModel.Field.Width - enemy.Width));
+                int ry = r.Next(0, (int)(ViewModel.Field.Height - enemy.Height));
+                double dx = (rx - enemy.X) / 50.0;
+                double dy = (ry - enemy.Y) / 50.0;
+                double x = enemy.X;
+                double y = enemy.Y;
+                for (int j = 0; j < 50; j++)
+                {
+                    Assert.AreEqual(x + dx * j, enemy.X, 5);
+                    Assert.AreEqual(y + dy * j, enemy.Y, 5);
+                    vm.Tick(1);
+                }
+            }
+            Assert.AreEqual(20, vm.TotalBullets);
+        }
+
+        [UITestMethod]
+        public void Enemy4DeadWithManyBullets()
+        {
+            ViewModel vm = new ViewModel();
+            Enemy4 enemy = new Enemy4(200, 200);
+            vm.AddEnemy(enemy);
+            Bullet b;
+
+            Assert.IsTrue(enemy.IsValid);
+            for (int i = 0; i < 19; i++)
+            {
+                b = new Bullet(enemy.X + enemy.Width / 2, enemy.Y + enemy.Height / 2);
+                vm.AddBullet(b);
+                vm.Tick(1);
+            }
+
+            Assert.IsTrue(enemy.IsValid);
+            b = new Bullet(enemy.X + enemy.Width / 2, enemy.Y + enemy.Height / 2);
+            vm.AddBullet(b);
+            vm.Tick(1);
+            Assert.IsFalse(enemy.IsValid);
         }
 
     }

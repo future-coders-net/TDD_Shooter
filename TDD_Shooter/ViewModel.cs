@@ -37,6 +37,10 @@ namespace TDD_Shooter
         public List<Drawable> Bullets { get { return Filter<Bullet>(); } }
         public List<Drawable> Blasts { get { return Filter<Blast>(); } }
 
+        private int totalBullets = 0;
+        public int TotalBullets { get { return totalBullets; } }
+
+
         internal ViewModel()
         {
             Message = new Message();
@@ -157,6 +161,7 @@ namespace TDD_Shooter
 
         internal void AddBullet(Bullet b)
         {
+            totalBullets++;
             Drawables.Add(b);
         }
 

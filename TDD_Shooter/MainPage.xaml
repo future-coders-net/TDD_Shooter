@@ -27,6 +27,26 @@
                    Height="{Binding Path=Ship.Height}"
                    Canvas.Top="{Binding Path=Ship.Y}"
                    Canvas.Left="{Binding Path=Ship.X}"/>
+
+                <ItemsControl ItemsSource="{Binding Path=Enemies}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Source}" 
+                                Width="{Binding Width}" Height="{Binding Height}">
+                                <Image.RenderTransform>
+                                    <TranslateTransform X="{Binding X}" Y="{Binding Y}"/>
+                                </Image.RenderTransform>
+                            </Image>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
             </Canvas>
         </Viewbox>
 

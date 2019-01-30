@@ -1,6 +1,8 @@
 ﻿using Windows.System;
 using Windows.Foundation;
+using System.Linq;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using TDD_Shooter.Model;
 namespace TDD_Shooter
 {
@@ -15,6 +17,14 @@ namespace TDD_Shooter
         public static readonly Rect Field = new Rect(0, 0, 643, 800);
         public double Width { get { return Field.Width; } }
         public double Height { get { return Field.Height; } }
+
+        private ObservableCollection<Enemy> enemies
+                = new ObservableCollection<Enemy>();
+        public ObservableCollection<Enemy> Enemies
+        {
+            get { return enemies; }
+        }
+
 
         internal ViewModel()
         {
@@ -39,6 +49,16 @@ namespace TDD_Shooter
             {
                 Back.Scroll(1);
                 Cloud.Scroll(2);
+
+                foreach (Enemy e in Enemies.ToArray())
+                {
+                    e.Move();
+                    if (e.Y > Field.Height)
+                    {
+                        Enemies.Remove(e);
+                    }
+                }
+
                 if (keyMap.ContainsKey(VirtualKey.Left) &&
                     keyMap[VirtualKey.Left])
                 {
@@ -61,6 +81,13 @@ namespace TDD_Shooter
                 }
             }
         }
+
+        internal void AddEnemy(Enemy e)
+        {
+            Enemies.Add(e);
+        }
+
+
 
     }
 }

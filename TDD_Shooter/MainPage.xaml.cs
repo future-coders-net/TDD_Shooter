@@ -2,6 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Core;
+using TDD_Shooter.Model;
 
 namespace TDD_Shooter
 {
@@ -22,6 +23,8 @@ namespace TDD_Shooter
             timer.Interval = TimeSpan.FromMilliseconds(20);
             timer.Tick += Tick;
             timer.Start();
+
+            Model.AddEnemy(new Enemy(200, 100));
         }
 
         private void Tick(object sender, object e)

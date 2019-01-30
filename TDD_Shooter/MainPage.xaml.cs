@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Core;
@@ -10,10 +12,14 @@ namespace TDD_Shooter
         ViewModel Model;
         DispatcherTimer timer;
         private int count = 0;
+        Dictionary<int, List<AbstractEnemy>> story
+            = new Dictionary<int, List<AbstractEnemy>>();
 
         public MainPage()
         {
             this.InitializeComponent();
+            ReadScenarioAsync();
+
             Model = new ViewModel();
             DataContext = Model;
             Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
@@ -25,16 +31,30 @@ namespace TDD_Shooter
             timer.Start();
 
             Model.Message.Text = "GET READY...";
-            Model.AddEnemy(new Enemy3(300, 100));
-            Model.AddEnemy(new Enemy3(350, 0));
-            Model.AddEnemy(new Enemy4(350, 0));
-
             Model.Ship.X = 300;
             Model.Ship.Y = 700;
         }
 
+        private async void ReadScenarioAsync()
+        {
+            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(
+                new Uri("ms-appx:///Settings/scenario.json"));
+            string text = await FileIO.ReadTextAsync(file);
+            story = ScenarioReader.Read(text);
+        }
+
         private void Tick(object sender, object e)
         {
+            if (story.ContainsKey(count))
+            {
+                List<AbstractEnemy> enemies = story[count];
+                foreach (AbstractEnemy enemy in enemies)
+                {
+                    Model.AddEnemy(enemy);
+                }
+                story.Remove(count);
+            }
+
             if (++count == 50)
             {
                 Model.Message.Text = "";
@@ -51,5 +71,6 @@ namespace TDD_Shooter
         {
             Model.KeyUp(args.VirtualKey);
         }
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Windows.System;
-using TDD_Shooter.Model;
+using Windows.Foundation;
 using System.Collections.Generic;
+using TDD_Shooter.Model;
 namespace TDD_Shooter
 {
     class ViewModel
@@ -8,10 +9,15 @@ namespace TDD_Shooter
         private Dictionary<VirtualKey, bool> keyMap
             = new Dictionary<VirtualKey, bool>();
         public Ship Ship { get; set; }
+        public Back Back { get; set; }
+        public static readonly Rect Field = new Rect(0, 0, 643, 800);
+        public double Width { get { return Field.Width; } }
+        public double Height { get { return Field.Height; } }
 
         internal ViewModel()
         {
             Ship = new Ship();
+            Back = new Back("ms-appx:///Images/back.png");
         }
 
         internal void KeyDown(VirtualKey key)
@@ -28,6 +34,7 @@ namespace TDD_Shooter
         {
             for (int i = 0; i < frame; i++)
             {
+                Back.Scroll(1);
                 if (keyMap.ContainsKey(VirtualKey.Left) &&
                     keyMap[VirtualKey.Left])
                 {

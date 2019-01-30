@@ -12,7 +12,7 @@ namespace TDD_Shooter.Model
             Source = new BitmapImage(new Uri("ms-appx:///Images/ship.png"));
         }
 
-        internal override void Tick()
+        public override void Tick()
         {
             X += SpeedX;
             Y += SpeedY;

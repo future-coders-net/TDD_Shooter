@@ -5,11 +5,20 @@ using Windows.Foundation;
 
 namespace TDD_Shooter.Model
 {
-    abstract class Drawable : INotifyPropertyChanged
+    abstract class Drawable : INotifyPropertyChanged, IClock
     {
-        internal abstract void Tick();
+        abstract public void Tick();
 
-        internal virtual bool IsValid { set; get; }
+        protected bool isValid;
+        public virtual bool IsValid
+        {
+            get { return isValid; }
+            set
+            {
+                isValid = value;
+                NotifyPropertyChanged("IsValid");
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

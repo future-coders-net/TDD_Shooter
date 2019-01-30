@@ -3,13 +3,13 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Core;
 using TDD_Shooter.Model;
-
 namespace TDD_Shooter
 {
     public sealed partial class MainPage : Page
     {
         ViewModel Model;
         DispatcherTimer timer;
+        private int count = 0;
 
         public MainPage()
         {
@@ -24,11 +24,19 @@ namespace TDD_Shooter
             timer.Tick += Tick;
             timer.Start();
 
-            Model.AddEnemy(new Enemy(200, 100));
+            Model.Message.Text = "GET READY...";
+            Model.AddEnemy(new Enemy(300, 0));
+            Model.AddEnemy(new Enemy(500, -50));
+            Model.Ship.X = 300;
+            Model.Ship.Y = 700;
         }
 
         private void Tick(object sender, object e)
         {
+            if (++count == 50)
+            {
+                Model.Message.Text = "";
+            }
             Model.Tick(1);
         }
 
@@ -41,6 +49,5 @@ namespace TDD_Shooter
         {
             Model.KeyUp(args.VirtualKey);
         }
-
     }
 }

@@ -24,13 +24,13 @@ namespace TDD_Shooter.Model
             Source = images[counter];
         }
 
-        internal override void Tick()
+        public override void Tick()
         {
             counter++;
             Source = images[Math.Min(7, counter)];
         }
 
-        internal override bool IsValid
+        public override bool IsValid
         {
             get { return counter < 8; }
         }

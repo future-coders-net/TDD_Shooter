@@ -15,6 +15,7 @@ namespace TDD_Shooter
         public Ship Ship { get; set; }
         public Back Back { get; set; }
         public Back Cloud { get; set; }
+        public Message Message { get; set; }
         public static readonly Rect Field = new Rect(0, 0, 643, 800);
         public double Width { get { return Field.Width; } }
         public double Height { get { return Field.Height; } }
@@ -38,6 +39,9 @@ namespace TDD_Shooter
 
         internal ViewModel()
         {
+            Message = new Message();
+            Message.Text = "PUSH SPACE TO START";
+
             Ship = new Ship();
             Back = new Back("ms-appx:///Images/back.png");
             Back.SpeedY = 1;
@@ -93,6 +97,7 @@ namespace TDD_Shooter
                     keyMap[VirtualKey.Space] = false;
                 }
 
+                Message.Tick();
                 foreach (Drawable e in Drawables.ToArray())
                 {
                     e.Tick();
@@ -112,6 +117,7 @@ namespace TDD_Shooter
                         if (Crash(e, Ship))
                         {
                             Ship.IsValid = false;
+                            Message.Text = "GAME OVER";
                         }
                     }
                 }
@@ -123,6 +129,7 @@ namespace TDD_Shooter
                         if (Crash(b, Ship))
                         {
                             Ship.IsValid = false;
+                            Message.Text = "GAME OVER";
                         }
                         continue;
                     }

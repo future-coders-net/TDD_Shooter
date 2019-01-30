@@ -10,27 +10,37 @@
 
     <Grid>
         <Viewbox>
-            <Canvas Width="{x:Bind Path=Model.Width}"
-                Height="{x:Bind Path=Model.Height}">
-                <ItemsControl ItemsSource="{Binding Path= Drawables}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Canvas/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
+            <Grid>
+                <Canvas Width="{x:Bind Path=Model.Width}"
+                    Height="{x:Bind Path=Model.Height}">
+                    <ItemsControl ItemsSource="{Binding Path= Drawables}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
 
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Image Source="{Binding Source}"
-            Width="{Binding Width}" Height="{Binding Height}">
-                                <Image.RenderTransform>
-                                    <TranslateTransform X="{Binding X}" Y="{Binding Y}"/>
-                                </Image.RenderTransform>
-                            </Image>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Canvas>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Source}"
+                    Width="{Binding Width}" Height="{Binding Height}">
+                                    <Image.RenderTransform>
+                                        <TranslateTransform X="{Binding X}" Y="{Binding Y}"/>
+                                    </Image.RenderTransform>
+                                </Image>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Canvas>
+                
+                <TextBlock FontSize="50" Foreground="Yellow"
+                           HorizontalAlignment="Center" 
+                           VerticalAlignment="Center"
+                           Opacity="{Binding Path=Message.Alpha}"
+                           Text="{Binding Path=Message.Text}">
+                </TextBlock>
+
+            </Grid>
         </Viewbox>
     </Grid>
 </Page>
